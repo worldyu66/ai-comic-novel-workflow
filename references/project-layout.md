@@ -1,0 +1,20 @@
+# Project Layout
+
+Use Markdown files as the editable source of truth:
+
+```text
+<project-name>/
+  01_source_payoff_analysis.md
+  02_topic_candidates.md
+  03_story_bible.md
+  04_core_outline.md
+  05_enhanced_outline.md
+  06_risk_review.md
+  07_manuscript.md
+  08_character_prompts.md
+  09_key_scene_prompts.md
+  10_release_polish.md
+  final_manuscript.docx
+```
+
+`07_manuscript.md` contains the canonical episode prose, Chinese opening-hook/value/payoff annotations, and episode ledger. Each episode places its annotation immediately below the episode title and before a `### 本集正文` heading. Run the installed skill's `scripts/count_chinese_characters.py`, `scripts/validate_episode_payoffs.py`, and `scripts/validate_chinese_manuscript.py` after every drafting batch and before export. Export `final_manuscript.docx` only after the final consistency and risk pass, removing the creative annotations and working-only body subheadings from the clean reading copy. Preserve Markdown files after export so changes remain traceable.

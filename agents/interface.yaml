@@ -1,0 +1,22 @@
+interface:
+  display_name: "AI 漫剧小说工作流"
+  short_description: "从素材分析到三万字中文漫剧小说全稿"
+  default_prompt: "使用 $ai-comic-novel-workflow 根据我提供的素材创作原创 AI 漫剧小说。"
+compatibility:
+  canonical_format: "agent-skills"
+  adapter_targets:
+    - "openai"
+    - "generic"
+  activation:
+    mode: "manual"
+    paths: []
+  execution:
+    context: "inline"
+    shell: "powershell"
+  trust:
+    source_tier: "local"
+    remote_inline_execution: "forbid"
+    remote_metadata_policy: "allow-metadata-only"
+  degradation:
+    openai: "native-skill-metadata"
+    generic: "neutral-source"
