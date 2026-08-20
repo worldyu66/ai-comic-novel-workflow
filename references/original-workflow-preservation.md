@@ -4,12 +4,12 @@ This skill preserves the user's established prompt sequence and optimizes its cl
 
 | Original guide | Preserved implementation | Optimization |
 | --- | --- | --- |
-| Flowchart: 赛道分析师 | `01_source_payoff_analysis.md` | Explicit爽点 mechanism analysis and source-boundary protection. |
+| Flowchart: ag_001 赛道分析师 | `01_source_payoff_analysis.md` | Leads source-specific track, audience desire, emotional curve, serialization, adaptation, and risk analysis; evidence must remain distinguishable from reusable abstraction. |
 | Flowchart: 圈层势力体系师 | `03_story_bible.md` | Separate factions, social rules, and power relationships. |
 | Flowchart: 身份底牌设计师 | `03_story_bible.md` | Record public identity, hidden card, and reveal conditions. |
 | Flowchart: 人设塑造师 | `03_story_bible.md` | Structured character cards and appearance continuity. |
 | Flowchart: 大纲规划师 | `04_core_outline.md` | Episode purpose, setup/payoff, approximate target episode count, allowed range, and runtime budget. |
-| Flowchart: 冲突与打脸设计师 | `05_enhanced_outline.md` | Earned reversals and accountability without prohibited degradation. |
+| Flowchart: ag_006 冲突与打脸设计师 | Front-light in `01_source_payoff_analysis.md`; back-heavy in `05_enhanced_outline.md` | Front: deeply analyze 5-8 source mechanisms with concrete evidence, audience psychology, operating chain, escalation, transferable abstraction, and replacement boundary, while creating no new plot. Back: design concrete antagonist pressure, earned reversals, accountability, and escalation without prohibited degradation. |
 | Flowchart: 正文主笔 | `07_manuscript.md` | Batches, ledger, recovery point, and verified count. |
 | Flowchart: 玩梗融合师 / 搞笑段子手 / 热点嫁接师 | Optional interest passes during drafting | Only when relevant and user-approved; trends require date context. |
 | Flowchart: 审核校准师 | `06_risk_review.md` | Low/Medium/High classification and required high-risk rework loop. |

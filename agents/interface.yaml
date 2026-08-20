@@ -1,6 +1,6 @@
 interface:
   display_name: "AI 漫剧小说工作流"
-  short_description: "按用户集数和时长制作中文漫剧小说全稿"
+  short_description: "按集数、成片形态与逻辑质量门创作中文漫剧小说"
   default_prompt: "使用 $ai-comic-novel-workflow 根据我提供的素材创作原创 AI 漫剧小说。"
 compatibility:
   canonical_format: "agent-skills"

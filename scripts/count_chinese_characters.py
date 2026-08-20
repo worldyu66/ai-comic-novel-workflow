@@ -42,35 +42,39 @@ METADATA_PREFIXES = (
     "- 本集正文字符数：",
     "- 累计正文字符数：",
 )
-CHAPTER_HEADING = re.compile(r"^##\s+(?:第\s*[一二三四五六七八九十百千万0-9]+\s*集|Chapter\s+\d+|第[一二三四五六七八九十百千万0-9]+章)", re.IGNORECASE)
+CHAPTER_HEADING = re.compile(
+    r"^##\s+(?:第\s*[一二三四五六七八九十百千万0-9]+\s*集|Chapter\s+\d+|第[一二三四五六七八九十百千万0-9]+章)",
+    re.IGNORECASE,
+)
+BODY_HEADING = "### 本集正文"
 
 
 def prose_sections(markdown: str) -> list[tuple[str, str]]:
-    sections: list[tuple[str, list[str]]] = []
-    title = "前置内容"
-    lines: list[str] = []
-    in_code_block = False
-
-    for line in markdown.splitlines():
-        if line.strip().startswith("```"):
-            in_code_block = not in_code_block
+    lines = markdown.splitlines()
+    starts = [index for index, line in enumerate(lines) if CHAPTER_HEADING.match(line)]
+    sections: list[tuple[str, str]] = []
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = lines[start:end]
+        try:
+            body_start = next(index for index, line in enumerate(block) if line.strip() == BODY_HEADING) + 1
+        except StopIteration:
             continue
-        if in_code_block:
-            continue
-        if CHAPTER_HEADING.match(line):
-            if lines:
-                sections.append((title, lines))
-            title = line.strip().lstrip("#").strip()
-            lines = []
-            continue
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#") or stripped.startswith(METADATA_PREFIXES):
-            continue
-        lines.append(line)
-
-    if lines:
-        sections.append((title, lines))
-    return [(name, "\n".join(content)) for name, content in sections]
+        body_lines: list[str] = []
+        in_code_block = False
+        for line in block[body_start:]:
+            if line.strip().startswith("```"):
+                in_code_block = not in_code_block
+                continue
+            if in_code_block:
+                continue
+            stripped = line.strip()
+            if not stripped or stripped.startswith(METADATA_PREFIXES):
+                continue
+            body_lines.append(line)
+        if body_lines:
+            sections.append((block[0].strip().lstrip("#").strip(), "\n".join(body_lines)))
+    return sections
 
 
 def count_non_whitespace(text: str) -> int:

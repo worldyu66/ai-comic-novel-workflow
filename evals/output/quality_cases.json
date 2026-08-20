@@ -1,0 +1,54 @@
+{
+  "execution_kind": "local_deterministic",
+  "cases": [
+    {
+      "id": "runtime_density_extremes",
+      "input": "A 45-episode manuscript with early episodes above 380 characters/minute and late episodes below 160 characters/minute.",
+      "baseline_result": "The annotation/payoff validator passed because duration labels were syntactically valid.",
+      "with_skill_result": "validate_manuscript_quality.py rejects every extreme episode and reports long-form front-to-back degradation.",
+      "assertions": ["extreme_density_rejected", "long_form_drift_rejected"]
+    },
+    {
+      "id": "core_rule_repair_requires_confirmation",
+      "input": "A High world-rule conflict whose repair changes the crossing rule.",
+      "baseline_result": "No machine-readable confirmation gate existed.",
+      "with_skill_result": "validate_logic_review.py rejects changes_core_plot unless status is user_confirmed with confirmation evidence.",
+      "assertions": ["core_change_requires_user_confirmation"]
+    },
+    {
+      "id": "release_closure",
+      "input": "A completed manuscript with empty rule/arc/antagonist ledgers or unresolved High logic findings.",
+      "baseline_result": "DOCX structure verification could pass.",
+      "with_skill_result": "validate_release_consistency.py blocks release until episode evidence closes every required ledger.",
+      "assertions": ["unresolved_high_blocks", "rule_arc_antagonist_evidence_required"]
+    },
+    {
+      "id": "video_mode_character_capacity",
+      "input": "A three-minute episode confirmed as pure narration, dialogue drama, or hybrid.",
+      "baseline_result": "One generic density range ignored the user's production form.",
+      "with_skill_result": "estimate_novel_word_count.py returns 990-1500, 1080-1320, or 1050-1350 novel-body characters respectively, without introducing production-track labels.",
+      "assertions": ["mode_specific_range", "ordinary_novel_prose_preserved"]
+    },
+    {
+      "id": "viewpoint_contract_drift",
+      "input": "The state locks first person and viewpoint character 苏晚晴, but the manuscript narrates through named-character third person.",
+      "baseline_result": "The draft could pass structure and language checks.",
+      "with_skill_result": "validate_narrative_contract.py blocks the batch and release.",
+      "assertions": ["viewpoint_drift_rejected", "viewpoint_character_required"]
+    },
+    {
+      "id": "generic_logic_pass",
+      "input": "Every logic dimension contains only generic pass wording and no attempted counterexample.",
+      "baseline_result": "A checklist could look complete without testing the story's assumptions.",
+      "with_skill_result": "validate_logic_review.py requires evidence, challenge_attempt, and result for every dimension.",
+      "assertions": ["generic_pass_rejected", "adversarial_result_required"]
+    },
+    {
+      "id": "shallow_source_payoff_analysis",
+      "input": "A source report contains only 530 Chinese characters and one-line generic statements with no mechanism cards or source evidence.",
+      "baseline_result": "The fixed short template was considered complete and topic generation could begin.",
+      "with_skill_result": "validate_source_payoff_analysis.py blocks the report until it contains 5-8 deep mechanism cards, two source-specific evidence points per card, audience psychology, operating chain, escalation, transfer abstraction, replacement boundary, and at least 1500 Chinese characters.",
+      "assertions": ["shallow_report_rejected", "source_evidence_required", "transfer_boundary_required"]
+    }
+  ]
+}

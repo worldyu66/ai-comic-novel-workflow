@@ -145,8 +145,8 @@ def main() -> None:
         elif index == 0:
             if not 1 <= duration <= 5:
                 failures.append(f"第 {label} 集作为第一集，目标时长必须在 1-5 分钟内")
-        elif duration != 1:
-            failures.append(f"第 {label} 集位于第一集之后，目标时长必须为 1 分钟")
+        elif not 1 <= duration <= 2:
+            failures.append(f"第 {label} 集位于第一集之后，目标时长必须在 1-2 分钟内")
 
         score = parse_score(values.get("开头质量评分", ""))
         if score is None:

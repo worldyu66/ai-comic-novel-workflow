@@ -2,12 +2,12 @@
 
 Run these roles as named passes, not as separate personas the user must manage.
 
-1. **赛道分析师**: extract audience resonance and爽点 mechanisms from authorized source material.
+1. **ag_001 赛道分析师**: lead the front-stage source analysis by extracting track, audience resonance, emotional demand, serialization space, and transferable爽点 mechanisms.
 2. **圈层与势力体系师**: design groups, social rules, and power relationships.
 3. **身份与底牌设计师**: design public identity, hidden card, and reveal timing.
 4. **人设塑造师**: create motives, wounds, relationships, character arcs, and visual continuity.
 5. **大纲规划师**: construct the episode path, runtime allocation, setup/payoff plan, and ending landing.
-6. **冲突与打脸设计师**: create earned reversals, accountability, and satisfying conflict resolution.
+6. **ag_006 冲突与打脸设计师**: participate lightly before topic selection by extracting abstract conflict/payoff mechanisms only; return as the full back-heavy pass after the core outline to design concrete pressure, reversals, accountability, escalation, and satisfying conflict resolution.
 7. **正文主笔**: draft controlled, dialogue-forward episodes against the ledger.
 8. **审核校准师**: run the supplied boundary review and enforce the high-risk rework loop.
 9. **文笔优化师**: polish rhythm and clarity without rewriting locked story facts.
