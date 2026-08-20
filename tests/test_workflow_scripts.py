@@ -151,6 +151,14 @@ def deep_source_analysis(mechanisms: int = 5) -> str:
 - 对下一步选题的约束：候选方向必须保留可验证的能力兑现，同时为资源使用设置代价并保证角色主动性。
 """
 class WorkflowScriptTests(unittest.TestCase):
+    def test_final_delivery_link_contract_prevents_duplicate_docx_targets(self):
+        guidance = (ROOT / "references" / "user-guidance.md").read_text(encoding="utf-8")
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("forward slashes (`C:/...`)", guidance)
+        self.assertIn("Cite the DOCX exactly once", guidance)
+        self.assertIn("do not place a normal Markdown link to the same DOCX", guidance)
+        self.assertIn("Emit the final DOCX exactly once", skill)
+
     def test_front_light_back_heavy_role_split_is_explicit(self):
         workflow = (ROOT / "references" / "workflow.md").read_text(encoding="utf-8")
         self.assertIn("ag_001 赛道分析师", workflow)

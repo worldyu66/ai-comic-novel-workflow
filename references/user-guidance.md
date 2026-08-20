@@ -4,11 +4,13 @@ Use these as interaction patterns. Adapt the wording to the actual project, but 
 
 ## File Delivery Rule
 
-Project artifacts are user deliverables, not internal files. Whenever a milestone file is created or updated, verify that it exists and include a `可查看文件` section in the same reply. In Codex Desktop, use clickable Markdown links whose targets are absolute local paths. Never report only a filename, hide the manuscript behind a progress summary, or claim that content was saved when no file exists.
+Project artifacts are user deliverables, not internal files. Whenever a milestone file is created or updated, verify that it exists and include a `可查看文件` section in the same reply. In Codex Desktop, use clickable Markdown links whose targets are absolute local paths written with forward slashes (`C:/...`), because raw Windows backslashes are not reliable for every file handler. Never report only a filename, hide the manuscript behind a progress summary, or claim that content was saved when no file exists.
 
 During drafting, always link the current `07_manuscript.md`. At final delivery, link `final_manuscript.docx` and the Markdown project sources. Other milestone replies should link the files most relevant to the user's current review decision.
 
 Before reporting a drafting batch, require a successful `run_batch_checks.py` result and read the recovery point from `project_state.json`. Before linking the final Word file, require a successful `verify_final_docx.py` result.
+
+At final delivery, link Markdown and JSON artifacts once with forward-slash absolute paths. Cite the DOCX exactly once with a plain `codex-file-citation` using `purpose="output"`; do not place a normal Markdown link to the same DOCX on that line and do not repeat the filename beside the citation. A duplicated Markdown link plus `codex-file-citation` can render as two Word icons with a broken click target.
 
 If a logic fix would change the core setting, main causal chain, major-character fate, or ending, do not hide the fork inside a progress update. State the exact contradiction, give at most two concrete repair paths, and wait for the user's choice. Local continuity and common-sense defects that preserve locked facts should be fixed and rechecked without interruption.
 
@@ -19,6 +21,13 @@ Example:
 
 - [正文创作稿](<absolute-project-path>/07_manuscript.md)
 - [强化大纲](<absolute-project-path>/05_enhanced_outline.md)
+```
+
+Final-delivery example:
+
+```markdown
+- [终稿逻辑审查](C:/absolute-project-path/reports/logic_review_final.json)
+- 最终 Word：:codex-file-citation{path="C:\\absolute-project-path\\final_manuscript.docx" purpose="output"}
 ```
 
 ## After Source Analysis

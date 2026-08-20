@@ -37,5 +37,6 @@ Create an original Chinese comic-drama novel package from supplied material with
 - Treat the manuscript, character prompts, key-scene prompts, final logic review, and verified Word as one atomic release bundle. Missing `08_character_prompts.md` or `09_key_scene_prompts.md` blocks release even when Word exists.
 - Only `scripts/finalize_release.py` may set `project_state.json.stage` to `complete`. It must hash-bind every final artifact in `reports/release_receipt.json`; any later manuscript or prompt change makes the previous release stale.
 - Report “全稿完成” only after reopening `reports/release_receipt.json`, confirming `passed: true`, confirming its hashes match the current files, and reading `stage: complete` plus `validation_status: passed` from `project_state.json`. Otherwise report the exact blocking items and last validated recovery point.
+- In the completion reply, use forward-slash absolute Markdown targets for Markdown/JSON files. Emit the final DOCX exactly once as a plain output `codex-file-citation`; never combine a normal DOCX Markdown link with the citation or repeat its filename.
 
 Use [project layout](references/project-layout.md), [creative roles](references/creative-roles.md), and [visual prompts](references/prompt-deliverables.md). Keep Markdown authoritative; treat `reports/` as deferred engineering evidence.
