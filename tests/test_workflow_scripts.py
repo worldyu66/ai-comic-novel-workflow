@@ -33,6 +33,7 @@ LOGIC = load_module("validate_logic_review", SCRIPTS / "validate_logic_review.py
 ESTIMATOR = load_module("estimate_novel_word_count", SCRIPTS / "estimate_novel_word_count.py")
 NARRATIVE = load_module("validate_narrative_contract", SCRIPTS / "validate_narrative_contract.py")
 SOURCE_ANALYSIS = load_module("validate_source_payoff_analysis", SCRIPTS / "validate_source_payoff_analysis.py")
+PROMPT_DELIVERABLES = load_module("validate_prompt_deliverables", SCRIPTS / "validate_prompt_deliverables.py")
 
 
 ANNOTATION = """### 本集创作标注
@@ -209,11 +210,50 @@ class WorkflowScriptTests(unittest.TestCase):
             legacy["later_episode_minutes"] = 1
             state_path.write_text(json.dumps(legacy, ensure_ascii=False), encoding="utf-8")
             migrated = STATE.load_state(state_path)
-            self.assertEqual(migrated["schema_version"], 4)
+            self.assertEqual(migrated["schema_version"], 5)
             self.assertEqual(migrated["later_episode_minutes_range"], [1, 2])
             self.assertEqual(migrated["logic_review_mode"], "strict")
             self.assertEqual(migrated["video_runtime_mode"], "hybrid")
             self.assertEqual(migrated["novel_characters_per_minute_range"], [350, 450])
+            self.assertEqual(migrated["validation_status"], "not_run")
+
+    def test_complete_state_requires_release_receipt_and_all_artifact_hashes(self):
+        state = STATE.new_state(15, 3, "auto_batch")
+        state["stage"] = "complete"
+        state["validation_status"] = "passed"
+        failures = STATE.validate_state(state)
+        self.assertTrue(any("发布字段" in item for item in failures))
+        state["release_receipt"] = "reports/release_receipt.json"
+        state["release_manuscript_sha256"] = "a" * 64
+        state["release_character_prompts_sha256"] = "b" * 64
+        state["release_scene_prompts_sha256"] = "c" * 64
+        state["release_docx_sha256"] = "d" * 64
+        self.assertEqual(STATE.validate_state(state), [])
+
+    def test_prompt_delivery_gate_requires_both_real_prompt_packs(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            characters = root / "08_character_prompts.md"
+            scenes = root / "09_key_scene_prompts.md"
+            failures, _ = PROMPT_DELIVERABLES.validate(characters, scenes)
+            self.assertTrue(any("缺少人物提示词" in item for item in failures))
+            characters.write_text(
+                "## 人物：沈知微｜身份：社区档案员\n\n"
+                "**身份锚点：** 三十岁，短发，灰色工作外套\n"
+                "**外貌确认提示词：** 克制沉静的女性档案员\n"
+                "**连续性说明：** 短发与工作证保持一致\n",
+                encoding="utf-8",
+            )
+            scenes.write_text(
+                "## 场景：雨夜来信｜对应集数：1\n\n"
+                "**剧情作用：** 建立跨时空邮路\n"
+                "**场景确认提示词（16:9）：** 暴雨旧邮局内，女主接住泛黄信封，中景，冷暖对比光\n"
+                "**人物连续性：** 沿用沈知微短发与灰色工作外套\n",
+                encoding="utf-8",
+            )
+            failures, counts = PROMPT_DELIVERABLES.validate(characters, scenes)
+            self.assertEqual(failures, [])
+            self.assertEqual(counts, {"characters": 1, "scenes": 1})
 
     def test_video_modes_estimate_three_minute_novel_body_ranges(self):
         self.assertEqual(ESTIMATOR.estimate("pure_narration", 3)["target_novel_characters_range"], [990, 1500])

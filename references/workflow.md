@@ -256,15 +256,18 @@ When the full manuscript is drafted:
 6. Run the supplied content-boundary review.
 7. Run a prose polish pass without changing established plot facts.
 8. Create title and opening-hook options that accurately represent the completed novel.
-9. Produce character and scene prompt packs from the final manuscript, not from an obsolete outline.
-10. Run the release gates, then export and verify the final Word file:
+9. Produce `08_character_prompts.md` and `09_key_scene_prompts.md` from the final manuscript, not from an obsolete outline. Reopen both files and verify their named entries before release.
+10. Close the release as one transaction. Do not run the Word exporter as a stand-alone completion step:
 
    ```powershell
-   python scripts/validate_manuscript_quality.py 07_manuscript.md --state project_state.json --report reports/manuscript_quality.json
-   python scripts/validate_narrative_contract.py 07_manuscript.md project_state.json --release-notes 10_release_polish.md --report reports/narrative_contract.json
-   python scripts/validate_release_consistency.py 07_manuscript.md project_state.json reports/logic_review_final.json
-   python scripts/export_final_docx.py 07_manuscript.md final_manuscript.docx --title "<作品名>"
-   python scripts/verify_final_docx.py 07_manuscript.md final_manuscript.docx
+   python scripts/finalize_release.py 07_manuscript.md project_state.json reports/logic_review_final.json 08_character_prompts.md 09_key_scene_prompts.md final_manuscript.docx --title "<作品名>"
    ```
 
+   The command validates completion, manuscript quality, narrative contract, release consistency, both prompt packs, Word export, and Word content in that order. It writes `reports/release_receipt.json`, hash-binds the current manuscript, prompt packs, final review, and Word file, and atomically sets `project_state.json` to `stage: complete` only after every check succeeds. A failed attempt leaves `stage: release`, records `blocking_items`, and never produces a new completed release.
+
    The exporter reads only each `### 本集正文` section. The verifier must confirm episode count, body preservation, and removal of working labels before delivery. Render the DOCX to pages and visually inspect every page when the document runtime is available.
+
+11. Generate the user-facing completion message from machine state, not from memory:
+   - If `reports/release_receipt.json.passed` is not `true`, report `待修订`, the exact `blocking_items`, and the last validated recovery point.
+   - If the receipt is valid but `project_state.json.stage` is not `complete`, report `发布未闭环` and continue the transaction.
+   - Only when the receipt hashes match the current five artifacts and state is `complete` may the response say `全稿完成`; link the manuscript, Word, character prompts, key-scene prompts, and final logic review.

@@ -120,6 +120,14 @@ def main() -> None:
     state["next_episode"] = args.through + 1
     state["stage"] = "drafting"
     state["last_validation"] = report
+    state["validation_status"] = "passed"
+    state["blocking_items"] = []
+    state["release_receipt"] = None
+    state["release_manuscript_sha256"] = None
+    state["release_character_prompts_sha256"] = None
+    state["release_scene_prompts_sha256"] = None
+    state["release_docx_sha256"] = None
+    state["delivery_manifest"] = {}
     state["logic_risks"] = list(merged_risks.values())
     state["semantic_reviews"].append(
         {

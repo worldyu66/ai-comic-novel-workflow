@@ -18,13 +18,15 @@ Use Markdown files as the editable source of truth:
   10_release_polish.md
   final_manuscript.docx
   reports/
+    prompt_deliverables.json
+    release_receipt.json
     batch_validation.json
     manuscript_quality.json
     logic_review_<through>.json
     logic_review_final.json
 ```
 
-`project_state.json` is the sole machine-readable recovery source. It records the current stage, approximate target episode count, allowed range, first-episode duration, the later-episode range `[1, 2]`, confirmed video form, novel-character-per-minute estimate band, narrative viewpoint and viewpoint character, drafting mode, validated recovery point, open clues, character continuity, allowed English terms, change log, and latest validation result. Human-readable summaries may appear in `03_story_bible.md` or `07_manuscript.md`, but they must not override the state file.
+`project_state.json` is the sole machine-readable recovery source. It records the current stage, approximate target episode count, allowed range, first-episode duration, the later-episode range `[1, 2]`, confirmed video form, novel-character-per-minute estimate band, narrative viewpoint and viewpoint character, drafting mode, validated recovery point, open clues, character continuity, allowed English terms, change log, latest validation result, release status, blocking items, artifact hashes, and delivery manifest. Human-readable summaries may appear in `03_story_bible.md` or `07_manuscript.md`, but they must not override the state file.
 
 It also records the strict logic-review mode, timeline and character-location ledger, knowledge state, world-rule lifecycle, logic findings, character-arc closure, antagonist causal chain, and semantic-review evidence. Every logic dimension needs evidence, a concrete challenge attempt, and its result. Empty or manually claimed closure is not sufficient at release; each closed item needs episode evidence.
 
@@ -34,6 +36,6 @@ It also records the strict logic-review mode, timeline and character-location le
 
 `05_enhanced_outline.md` uses vertical episode cards with three compact groups: `开头与悬念`, `剧情推进`, and `价值与兑现`. Wide multi-column episode tables are rejected because they are hard to review and frequently misalign in Markdown renderers. Run `scripts/validate_enhanced_outline.py` before risk review.
 
-After every batch, create the evidence-backed logic review and run `scripts/run_batch_checks.py --logic-review <review.json>`; it invokes character counting, payoff validation, Chinese-language validation, runtime-density and batch-drift checks, and the strict logic/common-sense gate. It writes `reports/batch_validation.json` and updates the recovery point only when every check passes. Export `final_manuscript.docx` only after the final episode count, `validate_manuscript_quality.py`, `validate_release_consistency.py`, and the final content-risk pass all succeed. Then use `scripts/export_final_docx.py` and `scripts/verify_final_docx.py`, preserving all Markdown and review evidence.
+After every batch, create the evidence-backed logic review and run `scripts/run_batch_checks.py --logic-review <review.json>`; it invokes character counting, payoff validation, Chinese-language validation, runtime-density and batch-drift checks, and the strict logic/common-sense gate. It writes `reports/batch_validation.json` and updates the recovery point only when every check passes. After the final manuscript passes, create `08_character_prompts.md` and `09_key_scene_prompts.md`. Close the project only with `scripts/finalize_release.py`; it validates the complete bundle, exports and verifies Word, writes `reports/release_receipt.json`, hash-binds every final artifact, and changes the state to `complete` atomically.
 
 After creating or updating any user-facing artifact, verify the file exists and expose it in the same chat response as a clickable absolute-path Markdown link. During prose drafting, always link `07_manuscript.md`; at completion, link `final_manuscript.docx` plus the principal Markdown sources. Internal implementation details may remain hidden, but project deliverables must never be hidden.

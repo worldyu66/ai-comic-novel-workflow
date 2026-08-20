@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 VIDEO_RUNTIME_RANGES = {
     "pure_narration": [330, 500],
     "dialogue_drama": [360, 440],
@@ -92,6 +92,14 @@ def new_state(
         "allowed_english_terms": [],
         "change_log": [],
         "last_validation": None,
+        "validation_status": "not_run",
+        "blocking_items": [],
+        "release_receipt": None,
+        "release_manuscript_sha256": None,
+        "release_character_prompts_sha256": None,
+        "release_scene_prompts_sha256": None,
+        "release_docx_sha256": None,
+        "delivery_manifest": {},
     }
 
 
@@ -118,6 +126,14 @@ def validate_state(state: dict[str, Any]) -> list[str]:
         "viewpoint_character",
         "video_runtime_mode",
         "novel_characters_per_minute_range",
+        "validation_status",
+        "blocking_items",
+        "release_receipt",
+        "release_manuscript_sha256",
+        "release_character_prompts_sha256",
+        "release_scene_prompts_sha256",
+        "release_docx_sha256",
+        "delivery_manifest",
     }
     missing = sorted(required - state.keys())
     if missing:
@@ -157,6 +173,27 @@ def validate_state(state: dict[str, Any]) -> list[str]:
         errors.append("novel_characters_per_minute_range 与 video_runtime_mode 不匹配")
     if state["viewpoint_character"] is not None and not isinstance(state["viewpoint_character"], str):
         errors.append("viewpoint_character 必须是字符串或 null")
+    if state["validation_status"] not in {"not_run", "passed", "failed", "stale"}:
+        errors.append("validation_status 必须是 not_run、passed、failed 或 stale")
+    if not isinstance(state["blocking_items"], list):
+        errors.append("blocking_items 必须是数组")
+    if not isinstance(state["delivery_manifest"], dict):
+        errors.append("delivery_manifest 必须是对象")
+    if state["stage"] == "complete":
+        required_release_fields = (
+            "release_receipt",
+            "release_manuscript_sha256",
+            "release_character_prompts_sha256",
+            "release_scene_prompts_sha256",
+            "release_docx_sha256",
+        )
+        missing_release = [name for name in required_release_fields if not state.get(name)]
+        if state["validation_status"] != "passed":
+            errors.append("complete 阶段要求 validation_status=passed")
+        if state["blocking_items"]:
+            errors.append("complete 阶段不允许存在 blocking_items")
+        if missing_release:
+            errors.append("complete 阶段缺少发布字段：" + "、".join(missing_release))
     return errors
 
 
@@ -195,9 +232,31 @@ def load_state(path: Path) -> dict[str, Any]:
             "novel_characters_per_minute_range",
             VIDEO_RUNTIME_RANGES[state["video_runtime_mode"]],
         )
+        state["schema_version"] = 4
+        state.setdefault("change_log", []).append(
+            {"at": now_iso(), "event": "state_migrated", "from_schema": 3, "to_schema": 4}
+        )
+    if state.get("schema_version") == 4:
+        defaults = new_state(
+            int(state.get("target_episodes", 1)),
+            float(state.get("first_episode_minutes", 3)),
+            str(state.get("draft_mode", "auto_batch")),
+            str(state.get("video_runtime_mode", "hybrid")),
+        )
+        for name in (
+            "validation_status",
+            "blocking_items",
+            "release_receipt",
+            "release_manuscript_sha256",
+            "release_character_prompts_sha256",
+            "release_scene_prompts_sha256",
+            "release_docx_sha256",
+            "delivery_manifest",
+        ):
+            state.setdefault(name, defaults[name])
         state["schema_version"] = SCHEMA_VERSION
         state.setdefault("change_log", []).append(
-            {"at": now_iso(), "event": "state_migrated", "from_schema": 3, "to_schema": SCHEMA_VERSION}
+            {"at": now_iso(), "event": "state_migrated", "from_schema": 4, "to_schema": SCHEMA_VERSION}
         )
     errors = validate_state(state)
     if errors:
@@ -277,6 +336,14 @@ def command_record_batch(args: argparse.Namespace) -> None:
             state["resolved_clues"].append(clue)
     if args.validation_json:
         state["last_validation"] = json.loads(args.validation_json.read_text(encoding="utf-8"))
+    state["validation_status"] = "passed" if args.validation_json else "stale"
+    state["blocking_items"] = []
+    state["release_receipt"] = None
+    state["release_manuscript_sha256"] = None
+    state["release_character_prompts_sha256"] = None
+    state["release_scene_prompts_sha256"] = None
+    state["release_docx_sha256"] = None
+    state["delivery_manifest"] = {}
     state["change_log"].append({"at": now_iso(), "event": "batch_completed", "through": args.through})
     atomic_write(args.state, state)
     print(f"批次状态已更新：完成至第 {args.through} 集，下一集为第 {args.through + 1} 集。")

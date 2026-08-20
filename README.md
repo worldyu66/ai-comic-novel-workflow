@@ -127,18 +127,20 @@ scripts/validate_episode_payoffs.py
 
 它们分别负责正文字符统计、来源爽点分析深度、意外英文检查，以及时长/开头钩子/价值点/爽点节奏检查。来源分析校验要求5-8个机制卡、每卡两条素材证据，并明确可迁移机制与必须替换外壳；正文字符统计用于制作记录和异常检查，不作为总长度门槛。
 
-生产执行还提供六个闭环工具：
+生产执行还提供八个闭环工具：
 
 ```text
 scripts/project_state.py
 scripts/estimate_novel_word_count.py
 scripts/run_batch_checks.py
 scripts/validate_narrative_contract.py
+scripts/validate_prompt_deliverables.py
+scripts/finalize_release.py
 scripts/export_final_docx.py
 scripts/verify_final_docx.py
 ```
 
-它们分别负责唯一项目状态、按成片形态估算小说正文字数、批次事务校验与恢复点提交、叙事人称/视角人物合同、Word 正式稿导出、Word 内容验收。`run_batch_checks.py` 会统一调用结构、语言、正文密度、批次衰减、叙事视角和逻辑审查门，只有全部通过才更新 `project_state.json`。
+它们分别负责唯一项目状态、按成片形态估算小说正文字数、批次事务校验与恢复点提交、叙事人称/视角人物合同、人物与关键场景提示词验收、完整交付包原子发布、Word 正式稿导出、Word 内容验收。`run_batch_checks.py` 会统一调用结构、语言、正文密度、批次衰减、叙事视角和逻辑审查门，只有全部通过才更新恢复点；`finalize_release.py` 只有在正文、终稿逻辑审查、两份提示词和 Word 全部通过后才把 `project_state.json` 更新为 `complete`。
 
 长篇质量与逻辑发布还提供：
 

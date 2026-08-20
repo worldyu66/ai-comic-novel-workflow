@@ -15,7 +15,7 @@ Create an original Chinese comic-drama novel package from supplied material with
 4. Apply [content boundaries](references/content-boundaries.md), resolve high risks, and confirm the outline, viewpoint, opening, hook, and continuation choices.
 5. Initialize and maintain `project_state.json` with `scripts/project_state.py`; treat it as the sole recovery source.
 6. Draft 2-3 episodes per batch, validate and commit the recovery point with `scripts/run_batch_checks.py`, then review and polish.
-7. Export and verify Word with `scripts/export_final_docx.py` and `scripts/verify_final_docx.py`, then create confirmation prompts.
+7. From the validated final manuscript, create and verify `08_character_prompts.md` and `09_key_scene_prompts.md`, then close the complete delivery bundle only through `scripts/finalize_release.py`.
 
 ## Hard Gates
 
@@ -34,5 +34,8 @@ Create an original Chinese comic-drama novel package from supplied material with
 - Preserve `auto_batch`, honor `manual_continue`, and resume only from validated `project_state.json`. Limit one response to at most two batches; stop immediately on validation failure and leave the last validated recovery point unchanged.
 - Never hand-build or merely rename the final Word file. Export it from the reviewed Markdown and pass `verify_final_docx.py` before delivery.
 - Before Word export, pass `validate_release_consistency.py` with a final logic review; require closed world rules, character arcs, antagonist causality, clue ledger, and High-risk logic findings.
+- Treat the manuscript, character prompts, key-scene prompts, final logic review, and verified Word as one atomic release bundle. Missing `08_character_prompts.md` or `09_key_scene_prompts.md` blocks release even when Word exists.
+- Only `scripts/finalize_release.py` may set `project_state.json.stage` to `complete`. It must hash-bind every final artifact in `reports/release_receipt.json`; any later manuscript or prompt change makes the previous release stale.
+- Report “全稿完成” only after reopening `reports/release_receipt.json`, confirming `passed: true`, confirming its hashes match the current files, and reading `stage: complete` plus `validation_status: passed` from `project_state.json`. Otherwise report the exact blocking items and last validated recovery point.
 
 Use [project layout](references/project-layout.md), [creative roles](references/creative-roles.md), and [visual prompts](references/prompt-deliverables.md). Keep Markdown authoritative; treat `reports/` as deferred engineering evidence.
