@@ -18,6 +18,7 @@ Create an original Chinese comic-drama novel package from supplied material with
 ## Hard Gates
 
 - Use plain Chinese and [user guidance](references/user-guidance.md).
+- After every saved milestone or drafting batch, show clickable absolute-path links to the updated user-facing project files. Never hide deliverables as internal files or claim a file was saved before verifying it exists.
 - Put working annotations before prose and remove them from clean Word.
 - Enforce [opening-hook design](references/opening-hook-design.md) and [payoff design](references/payoff-design.md) as separate contracts.
 - After every batch, run all three scripts in `scripts/`; never invent counts.

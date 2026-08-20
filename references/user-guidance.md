@@ -2,6 +2,21 @@
 
 Use these as interaction patterns. Adapt the wording to the actual project, but keep the decision and next action explicit.
 
+## File Delivery Rule
+
+Project artifacts are user deliverables, not internal files. Whenever a milestone file is created or updated, verify that it exists and include a `可查看文件` section in the same reply. In Codex Desktop, use clickable Markdown links whose targets are absolute local paths. Never report only a filename, hide the manuscript behind a progress summary, or claim that content was saved when no file exists.
+
+During drafting, always link the current `07_manuscript.md`. At final delivery, link `final_manuscript.docx` and the Markdown project sources. Other milestone replies should link the files most relevant to the user's current review decision.
+
+Example:
+
+```markdown
+可查看文件：
+
+- [正文创作稿](<absolute-project-path>/07_manuscript.md)
+- [强化大纲](<absolute-project-path>/05_enhanced_outline.md)
+```
+
 ## After Source Analysis
 
 ```text
@@ -22,6 +37,10 @@ Use these as interaction patterns. Adapt the wording to the actual project, but 
 请直接回复“选 01”、题材名称，或“默认”。选择“默认”时，我会采用上方标注“推荐”的方案。
 
 说明：候选方案也已保存到项目文件中，但无需打开文件，你可以直接在这里完成选择。
+
+可查看文件：
+
+- [选题方案](<absolute-project-path>/02_topic_candidates.md)
 ```
 
 
@@ -33,6 +52,11 @@ Use these as interaction patterns. Adapt the wording to the actual project, but 
 我已在原大纲中补强反派压力、泪点和爽点，并按你的审核清单完成风险检查。
 
 若存在高风险内容，我会先重做对应的大纲部分并重新检查，不会直接进入正文。
+
+可查看文件：
+
+- [强化大纲](<absolute-project-path>/05_enhanced_outline.md)
+- [风险审核](<absolute-project-path>/06_risk_review.md)
 ```
 
 ## Before Drafting
@@ -52,6 +76,10 @@ Use these as interaction patterns. Adapt the wording to the actual project, but 
 
 已完成第 <N> 至 <M> 集，累计正文字符数为 <verified count>。本批每集价值点和爽点节奏均已检查；已新增的伏笔是：<brief list>；下一批会推进：<brief plan>。
 
+可查看文件：
+
+- [正文创作稿（已更新至第 <M> 集）](<absolute-project-path>/07_manuscript.md)
+
 我将继续下一批创作；如需改方向，请直接说明要修改的角色、情节或节奏。
 ```
 
@@ -61,6 +89,10 @@ Use these as interaction patterns. Adapt the wording to the actual project, but 
 当前阶段：恢复创作
 
 已从项目记录中确认：上次完成第 <N> 集，累计正文字符数为 <verified count>，尚未回收的伏笔包括：<brief list>。
+
+可查看文件：
+
+- [正文创作稿（当前恢复点）](<absolute-project-path>/07_manuscript.md)
 
 现在将从第 <N+1> 集开始，按既定大纲和每集爽点计划继续创作。
 ```

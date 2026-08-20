@@ -18,3 +18,5 @@ Use Markdown files as the editable source of truth:
 ```
 
 `07_manuscript.md` contains the canonical episode prose, Chinese opening-hook/value/payoff annotations, and episode ledger. Each episode places its annotation immediately below the episode title and before a `### 本集正文` heading. Run the installed skill's `scripts/count_chinese_characters.py`, `scripts/validate_episode_payoffs.py`, and `scripts/validate_chinese_manuscript.py` after every drafting batch and before export. Export `final_manuscript.docx` only after the final consistency and risk pass, removing the creative annotations and working-only body subheadings from the clean reading copy. Preserve Markdown files after export so changes remain traceable.
+
+After creating or updating any user-facing artifact, verify the file exists and expose it in the same chat response as a clickable absolute-path Markdown link. During prose drafting, always link `07_manuscript.md`; at completion, link `final_manuscript.docx` plus the principal Markdown sources. Internal implementation details may remain hidden, but project deliverables must never be hidden.
