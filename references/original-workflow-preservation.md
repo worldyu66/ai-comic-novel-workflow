@@ -8,7 +8,7 @@ This skill preserves the user's established prompt sequence and optimizes its cl
 | Flowchart: 圈层势力体系师 | `03_story_bible.md` | Separate factions, social rules, and power relationships. |
 | Flowchart: 身份底牌设计师 | `03_story_bible.md` | Record public identity, hidden card, and reveal conditions. |
 | Flowchart: 人设塑造师 | `03_story_bible.md` | Structured character cards and appearance continuity. |
-| Flowchart: 大纲规划师 | `04_core_outline.md` | Chapter purpose, setup/payoff, and length budget. |
+| Flowchart: 大纲规划师 | `04_core_outline.md` | Episode purpose, setup/payoff, approximate target episode count, allowed range, and runtime budget. |
 | Flowchart: 冲突与打脸设计师 | `05_enhanced_outline.md` | Earned reversals and accountability without prohibited degradation. |
 | Flowchart: 正文主笔 | `07_manuscript.md` | Batches, ledger, recovery point, and verified count. |
 | Flowchart: 玩梗融合师 / 搞笑段子手 / 热点嫁接师 | Optional interest passes during drafting | Only when relevant and user-approved; trends require date context. |

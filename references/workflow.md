@@ -2,7 +2,7 @@
 
 ## 1. Source Payoff Analysis
 
-Extract high-level, non-protectable patterns: setting category, audience tension, payoff cadence, emotional hooks, conflict sources, chapter momentum, and content-risk signals. The analysis must explicitly identify the source material's 爽点 mechanism: what the audience anticipates, what reversal or reward delivers it, and how frequently the payoff arrives. Do not reproduce a source's named characters, exact scenes, prose, dialogue, or distinctive plot sequence.
+Extract high-level, non-protectable patterns: setting category, audience tension, payoff cadence, emotional hooks, conflict sources, episode momentum, and content-risk signals. The analysis must explicitly identify the source material's 爽点 mechanism: what the audience anticipates, what reversal or reward delivers it, and how frequently the payoff arrives. Do not reproduce a source's named characters, exact scenes, prose, dialogue, or distinctive plot sequence.
 
 ## 2. Topic Recommendation Gate
 
@@ -22,7 +22,11 @@ End with this plain-language choice instruction: “请直接回复‘选 01’�
 
 Do not begin a story bible or outline until the user selects a topic. On an explicit default instruction, rank the candidates internally by audience resonance, payoff strength, serialization space, originality, and content risk, then state the chosen genre, topic name, and one-sentence story direction before proceeding.
 
-## 3. World, Identity, and Character Passes
+## 3. Episode Count and Runtime Gate
+
+After topic selection and before the story bible, apply [duration planning](duration-planning.md). Confirm an approximate target episode count and the first-episode target duration. The first episode must be no longer than 5 minutes; every later episode targets 1 minute. If the user already supplied both values, record them without asking again. Do not use a total word or character target as the completion contract.
+
+## 4. World, Identity, and Character Passes
 
 Create the story bible before prose. It must separately include:
 
@@ -30,7 +34,7 @@ Create the story bible before prose. It must separately include:
 - protagonist and major-character identity, public position, hidden card, and reveal conditions
 - character cards with want, fear, conflict, relationship, emotional wound, and visual continuity
 
-## 4. Core Outline and Conflict Passes
+## 5. Core Outline and Conflict Passes
 
 Create the core outline after the story bible. It must specify:
 
@@ -38,14 +42,14 @@ Create the core outline after the story bible. It must specify:
 - protagonist goal and opposing force
 - escalating reversals and emotional payoffs
 - major character arcs and relationship turns
-- chapter-by-chapter purpose, planned clue/payoff, and estimated length
+- episode-by-episode purpose, planned clue/payoff, and target runtime
 - ending resolution and final emotional landing
 
 ### Opening-retention pass
 
 Before drafting, design both the whole-story opening and each episode's opening. Episode 1 should enter a high-tension, anomalous, dangerous, emotionally rupturing, or identity-contrasting event immediately; episodes 2-3 should maintain high opening density; later episodes may use quieter information, relationship, or atmosphere hooks when they create a concrete question or change. Rotate among anomaly, result-first reveal, identity contrast, conflict ignition, countdown, relationship rupture, rule/monster oddity, and information reversal. Do not confuse a hook with a payoff: the hook earns the next minute of attention, the episode value point repays attention, and the ending hook creates the next question. Every hook must state its mainline connection and when it will be partially or fully paid off.
 
-## 5. Antagonist, Tears, and Payoff Enhancement
+## 6. Antagonist, Tears, and Payoff Enhancement
 
 Keep the selected topic and core outline intact, then issue a revised enhanced outline that:
 
@@ -56,12 +60,12 @@ Keep the selected topic and core outline intact, then issue a revised enhanced o
 
 The enhanced outline must include one row per episode:
 
-| 集数 | 开头钩子类型 | 开场事件 | 观众核心疑问 | 钩子强度 | 钩子兑现期限 | 本集目标 | 核心冲突 | 本集价值点 | 价值类型 | 是否明确爽点 | 爽点类型 | 本集兑现 | 观众收益 | 节奏等级 | 集尾钩子 |
+| 集数 | 目标时长 | 开头钩子类型 | 开场事件 | 观众核心疑问 | 钩子强度 | 钩子兑现期限 | 本集目标 | 核心冲突 | 本集价值点 | 价值类型 | 是否明确爽点 | 爽点类型 | 本集兑现 | 观众收益 | 节奏等级 | 集尾钩子 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Every episode needs an audience value point, but it does not need a conventional爽点. A value point may be a爽点、泪点、甜点、惊点、笑点或关键信息. Across any three consecutive episodes, at least one must contain an explicit爽点. Across any six consecutive episodes, at least one must be `强兑现` or `阶段高潮`. The payoff and ending hook remain separate: first give the audience a meaningful return, then create the next question.
 
-## 6. Risk Review and Outline Rework Loop
+## 7. Risk Review and Outline Rework Loop
 
 Review `05_enhanced_outline.md` against the supplied content-boundary checklist. Classify every finding as Low, Medium, or High.
 
@@ -71,11 +75,12 @@ Review `05_enhanced_outline.md` against the supplied content-boundary checklist.
 
 Do not proceed to prose when a High finding remains unless the user explicitly asks to accept that residual risk.
 
-## 7. Combined Creative Confirmation
+## 8. Combined Creative Confirmation
 
 Ask for one combined creative confirmation. It must state in plain Chinese:
 
 - the chosen story direction and ending target
+- the approximate target episode count, its default allowed range, the confirmed first-episode duration, and the 1-minute duration for every later episode
 - the narrative point of view, with first person as the default
 - 开头模式：`剧情开头`（直接进入高张力场面）或 `解说开头`（用简短的第一人称钩子开场，再进入场面）
 - 续写模式：`自动分批`（默认，每批 2-3 集）或 `手动继续`（保留原来的“继续”命令）
@@ -83,7 +88,7 @@ Ask for one combined creative confirmation. It must state in plain Chinese:
 
 Incorporate requested changes, then lock the working version and retain an explicit change log.
 
-## 8. Drafting and Optional Interest Passes
+## 9. Drafting and Optional Interest Passes
 
 Draft 2-3 episodes per batch. In `自动分批` mode, proceed to the next batch after the status update. In `手动继续` mode, wait for “继续” before proceeding.
 
@@ -98,6 +103,7 @@ Each episode uses this Chinese working-manuscript order so the user can review t
 
 - 开头钩子类型：反常型 / 结果前置型 / 身份反差型 / 冲突爆发型 / 危机倒计时型 / 关系破裂型 / 规则怪诞型 / 信息颠覆型
 - 钩子强度：强钩子 / 中钩子 / 基础钩子
+- 目标时长：<第一集填写已确认的 1-5 分钟；其后填写 1 分钟>
 - 开场事件：...
 - 观众立即知道：...
 - 观众核心疑问：...
@@ -125,7 +131,7 @@ Each episode uses this Chinese working-manuscript order so the user can review t
 <本集正文>
 ```
 
-Before starting a batch, review chronology, character motivation, open clues, length budget, boundary risks, and the value row for every planned episode. Reject and rewrite an episode when it has no audience value, when two consecutive episodes are only buildup, when a three-episode window lacks an explicit爽点, when a six-episode window lacks a strong payoff, or when repeated爽点 do not escalate.
+Before starting a batch, review chronology, character motivation, open clues, runtime budget, boundary risks, and the value row for every planned episode. Reject and rewrite an episode when it has too many primary tasks for its runtime, has no audience value, when two consecutive episodes are only buildup, when a three-episode window lacks an explicit爽点, when a six-episode window lacks a strong payoff, or when repeated爽点 do not escalate.
 
 After drafting, review the opening separately. Reject and rewrite an opening when it delays the first meaningful event with exposition, relies on an unrelated shock, offers no concrete audience question, has no mainline connection, or repeatedly uses the same hook type without escalation. The score is a creative review aid; the validator checks its presence and thresholds but cannot replace semantic judgment.
 
@@ -133,19 +139,21 @@ After writing the batch, run:
 
 ```powershell
 python scripts/count_chinese_characters.py 07_manuscript.md
-python scripts/validate_episode_payoffs.py 07_manuscript.md
+python scripts/validate_episode_payoffs.py 07_manuscript.md --target-episodes <目标集数>
 python scripts/validate_chinese_manuscript.py 07_manuscript.md
 ```
 
-Copy verified values into the episode ledger. If payoff validation fails, fix the missing or incomplete episode annotation before continuing. If the Chinese-language audit finds accidental English, replace it with natural Chinese unless it is a necessary proper noun explicitly allowed by the user. If the response or session is interrupted, save the updated Markdown files before reporting status. A later request such as “继续创作” or “从第 8 集恢复” must begin by reading the ledger, state the exact recovery point, then continue with the next planned batch.
+Copy verified values into the episode ledger. Character counts remain diagnostic records, not a total-length target. If duration or payoff validation fails, fix the episode plan or annotation before continuing. If the Chinese-language audit finds accidental English, replace it with natural Chinese unless it is a necessary proper noun explicitly allowed by the user. If the response or session is interrupted, save the updated Markdown files before reporting status. A later request such as “继续创作” or “从第 8 集恢复” must begin by reading the ledger, state the exact recovery point, then continue with the next planned batch.
 
-## 9. Quality, Polish, and Release Pass
+Before final export, run `python scripts/validate_episode_payoffs.py 07_manuscript.md --target-episodes <目标集数> --require-complete`. The default tolerance is +/-10%, with a minimum allowance of one episode. Do not release a manuscript outside that range unless the user has approved a new target and the project ledger records the change.
+
+## 10. Quality, Polish, and Release Pass
 
 When the full manuscript is drafted:
 
 1. Check all setup/payoff pairs and timeline order.
 2. Check each major character's motivation, arc, name, and visual continuity.
-3. Check episode length balance, total length, and payoff-type repetition.
+3. Check completion against the approved episode-count range, episode runtime balance, and payoff-type repetition.
 4. Run the supplied content-boundary review.
 5. Run a prose polish pass without changing established plot facts.
 6. Create title and opening-hook options that accurately represent the completed novel.

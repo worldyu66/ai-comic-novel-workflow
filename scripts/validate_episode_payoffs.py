@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import re
 from pathlib import Path
 
@@ -15,6 +16,7 @@ BODY_HEADING = "### 本集正文"
 REQUIRED_NAMES = (
     "开头钩子类型",
     "钩子强度",
+    "目标时长",
     "开场事件",
     "观众立即知道",
     "观众核心疑问",
@@ -59,10 +61,35 @@ def parse_score(value: str) -> int | None:
     return int(match.group(1)) if match else None
 
 
+def parse_duration_minutes(value: str) -> float | None:
+    match = re.fullmatch(r"\s*(\d+(?:\.\d+)?)\s*分钟\s*", value)
+    return float(match.group(1)) if match else None
+
+
+def episode_count_range(target: int, tolerance_percent: float) -> tuple[int, int]:
+    deviation = max(1, math.ceil(target * tolerance_percent / 100))
+    return max(1, target - deviation), target + deviation
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="检查每集开头钩子、价值点与爽点节奏窗口。")
     parser.add_argument("manuscript", type=Path, help="07_manuscript.md 的路径")
+    parser.add_argument("--target-episodes", type=int, help="项目台账中确认的大概目标集数")
+    parser.add_argument(
+        "--episode-tolerance-percent",
+        type=float,
+        default=10,
+        help="最终集数相对目标集数的允许浮动百分比，默认 10",
+    )
+    parser.add_argument("--require-complete", action="store_true", help="要求最终正文集数落在目标允许区间内")
     args = parser.parse_args()
+
+    if args.require_complete and args.target_episodes is None:
+        parser.error("--require-complete 必须与 --target-episodes 一起使用")
+    if args.target_episodes is not None and args.target_episodes <= 0:
+        parser.error("--target-episodes 必须是大于 0 的整数")
+    if args.episode_tolerance_percent < 0:
+        parser.error("--episode-tolerance-percent 不能小于 0")
 
     text = args.manuscript.read_text(encoding="utf-8")
     episodes = list(EPISODE.finditer(text))
@@ -71,6 +98,17 @@ def main() -> None:
 
     failures: list[str] = []
     records: list[dict[str, str]] = []
+
+    if args.target_episodes is not None:
+        lower, upper = episode_count_range(args.target_episodes, args.episode_tolerance_percent)
+        if len(episodes) > upper:
+            failures.append(
+                f"正文已有 {len(episodes)} 集，超过目标 {args.target_episodes} 集的允许区间 {lower}-{upper} 集"
+            )
+        if args.require_complete and not lower <= len(episodes) <= upper:
+            failures.append(
+                f"最终正文当前为 {len(episodes)} 集；目标约 {args.target_episodes} 集，允许区间为 {lower}-{upper} 集"
+            )
 
     for index, match in enumerate(episodes):
         label = match.group(1)
@@ -100,6 +138,15 @@ def main() -> None:
             failures.append(f"第 {label} 集钩子强度必须是：强钩子、中钩子、基础钩子")
         if values.get("钩子与主线关系") in {"无", "无关", "没有"}:
             failures.append(f"第 {label} 集开头钩子必须与主线有关")
+
+        duration = parse_duration_minutes(values.get("目标时长", ""))
+        if duration is None:
+            failures.append(f"第 {label} 集目标时长必须使用“数字 + 分钟”格式")
+        elif index == 0:
+            if not 1 <= duration <= 5:
+                failures.append(f"第 {label} 集作为第一集，目标时长必须在 1-5 分钟内")
+        elif duration != 1:
+            failures.append(f"第 {label} 集位于第一集之后，目标时长必须为 1 分钟")
 
         score = parse_score(values.get("开头质量评分", ""))
         if score is None:
@@ -149,7 +196,7 @@ def main() -> None:
     if failures:
         raise SystemExit("检查失败：\n" + "\n".join(dict.fromkeys(failures)))
 
-    print(f"检查通过：共 {len(episodes)} 集，开头钩子、价值点与爽点节奏窗口合格。")
+    print(f"检查通过：共 {len(episodes)} 集，时长、开头钩子、价值点与爽点节奏窗口合格。")
 
 
 if __name__ == "__main__":

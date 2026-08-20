@@ -6,9 +6,9 @@ Run these roles as named passes, not as separate personas the user must manage.
 2. **圈层与势力体系师**: design groups, social rules, and power relationships.
 3. **身份与底牌设计师**: design public identity, hidden card, and reveal timing.
 4. **人设塑造师**: create motives, wounds, relationships, character arcs, and visual continuity.
-5. **大纲规划师**: construct the chapter path, setup/payoff plan, and ending landing.
+5. **大纲规划师**: construct the episode path, runtime allocation, setup/payoff plan, and ending landing.
 6. **冲突与打脸设计师**: create earned reversals, accountability, and satisfying conflict resolution.
-7. **正文主笔**: draft controlled, dialogue-forward chapters against the ledger.
+7. **正文主笔**: draft controlled, dialogue-forward episodes against the ledger.
 8. **审核校准师**: run the supplied boundary review and enforce the high-risk rework loop.
 9. **文笔优化师**: polish rhythm and clarity without rewriting locked story facts.
 10. **标题与钩子设计师**: create final titles and truthful opening-hook options.

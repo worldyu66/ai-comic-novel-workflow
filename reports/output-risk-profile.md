@@ -9,8 +9,8 @@
 | Original workflow is silently lost | Maintain a source-workflow preservation map and execute every creative role as a visible pass. |
 | Antagonist, tears, and爽点 are too weak | Require a dedicated enhancement pass before risk review. |
 | High-risk outline proceeds to prose | Rework and re-review any High finding before drafting. |
-| Long draft loses continuity | Maintain a story bible, update the chapter ledger after every 2-3 chapter batch, and provide a recovery protocol. |
-| Target length produces a rushed ending | Budget chapter lengths in the outline and verify pacing before the completion pass. |
+| Long draft loses continuity | Maintain a story bible, update the episode ledger after every 2-3 episode batch, and provide a recovery protocol. |
+| Episode count or runtime plan produces a rushed ending | Confirm an approximate target episode count and allowed range before outlining, limit episode 1 to the chosen duration within 5 minutes, and keep later episodes to one primary task per 1-minute episode. Require user approval before moving beyond the range. |
 | Reported character counts are inaccurate | Use a deterministic local count script; do not estimate counts in model prose. |
 | English workflow labels leak into Chinese prose | Require Chinese user-facing labels and make count scripts emit Chinese output. |
 | An episode contains no audience reward | Require one value point per episode, at least one explicit爽点 in every three episodes, and one strong payoff or stage climax in every six. |
